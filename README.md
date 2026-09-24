@@ -2,6 +2,13 @@
 <p align="center">
   <img src="https://github.com/openai/codex/blob/main/.github/codex-cli-splash.png" alt="Codex CLI splash" width="80%" />
 </p>
+<p align="center">
+  <a href="site/index.html"><img src="site/brand/mark.svg" width="72" height="72" alt="Slow Mode" /></a>
+</p>
+<p align="center">
+  <a href="site/index.html"><img src="site/brand/og.png" width="80%" alt="slow mode. same Codex. paced." /></a>
+</p>
+<p align="center"><a href="site/index.html"><strong>Slow Mode</strong></a> for this fork. Same model. Type <code>/slow-mode</code>.</p>
 </br>
 If you want Codex in your code editor (VS Code, Cursor, Windsurf), <a href="https://developers.openai.com/codex/ide">install in your IDE.</a>
 </br>If you want the desktop app experience, run <code>codex app</code> or visit <a href="https://chatgpt.com/codex?app-landing-page=true">the Codex App page</a>.
@@ -51,6 +58,11 @@ Then simply run `codex` to get started.
 
 ## Slow Mode
 
+<p>
+  <img src="site/brand/mark.svg" width="36" height="36" alt="" />
+  <strong>same Codex. paced.</strong>
+</p>
+
 Slow Mode is for the case where you have plenty of wall-clock time and do not want an autonomous coding task to burn through the five-hour Codex allowance in a short burst. It keeps the same model, reasoning, and tools, and spaces model requests using the rate-limit snapshot Codex already tracks.
 
 ```text
@@ -60,7 +72,7 @@ codex
 Slow mode enabled for this session.
 ```
 
-`/slow-mode status` and `/slow-mode off` are local controls. The setting lasts for the current session only. Details, the pacing model, and what this does not do are in [docs/slow-mode.md](./docs/slow-mode.md).
+`/slow-mode status` and `/slow-mode off` are local controls. The setting lasts for the current session only. The mark and the site are in [`site/`](./site/index.html). Details, the pacing model, and what this does not do are in [docs/slow-mode.md](./docs/slow-mode.md).
 
 <details>
 <summary>You can also go to the <a href="https://github.com/openai/codex/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
@@ -90,6 +102,7 @@ You can also use Codex with an API key, but this requires [additional setup](htt
 - [**Contributing**](./docs/contributing.md)
 - [**Installing & building**](./docs/install.md)
 - [**Slow Mode**](./docs/slow-mode.md)
+- [**Slow Mode site**](./site/index.html)
 - [**Open source fund**](./docs/open-source-fund.md)
 
 This repository is licensed under the [Apache-2.0 License](LICENSE).

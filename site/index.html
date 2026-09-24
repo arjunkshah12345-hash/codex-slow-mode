@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slow Mode — same Codex, paced</title>
+  <meta name="description" content="Type /slow-mode in Codex. Same model, same tools, same work. Inference is spread across the window instead of burned in a burst." />
+  <meta property="og:title" content="Slow Mode — same Codex, paced" />
+  <meta property="og:description" content="Type /slow-mode. The session keeps the model and spreads inference across the allowance you already have." />
+  <meta property="og:image" content="https://github.com/arjunkshah12345-hash/codex-slow-mode/raw/feat/slow-mode/site/brand/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="brand/mark.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif&family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top">
+        <img src="brand/mark.svg" alt="" />
+        <span>slow mode</span>
+      </a>
+      <div class="nav-links">
+        <a href="#how">how it works</a>
+        <a href="#honest">what it is not</a>
+        <a href="#use">use it</a>
+        <a class="go" href="https://github.com/arjunkshah12345-hash/codex-slow-mode">GitHub</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <p class="eyebrow">for the codex session you already have</p>
+      <h1>the same agent. paced.</h1>
+      <p class="lede">You have the afternoon. You do not want one autonomous task to spend the five-hour allowance in a burst. Type <strong>/slow-mode</strong>. The model, the tools, and the checks stay. Only the timing changes.</p>
+      <div class="hero-actions">
+        <a class="go" href="#use" style="color:#12110f;background:#f3efe6;text-decoration:none;border-radius:999px;padding:10px 16px;">start a session</a>
+        <a class="text" href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">read the pacing notes</a>
+      </div>
+
+      <div class="stage" aria-label="A Codex session with Slow Mode on">
+        <div class="stage-bar">
+          <span class="dot on"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span>session</span>
+        </div>
+        <div class="stage-body">
+          <aside class="rail">
+            <p>this session</p>
+            <ul>
+              <li class="active">build the feature</li>
+              <li>review the diff</li>
+              <li>subagent · tests</li>
+            </ul>
+          </aside>
+          <div class="transcript">
+            <p class="line"><span class="prompt">&gt; </span><span class="ok">/slow-mode</span></p>
+            <p class="line dim">Slow mode enabled for this session.</p>
+            <p class="line"><span class="prompt">&gt; </span><span class="user">Build the feature…</span></p>
+            <p class="line dim">same model · same tools · requests take their turn</p>
+            <div class="footer-line">
+              <span><span class="chip">SLOW</span></span>
+              <span>pacing usage · next model request in ~1m 42s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="how">
+      <div class="split">
+        <div>
+          <p class="section-kicker">01 · the window</p>
+          <h2>spend the allowance across the reset.</h2>
+          <p class="sub">Slow Mode reads the usage Codex already tracks and waits only until the next sustainable model request. A four-minute test suite already counts. The shell is not asked to nap.</p>
+        </div>
+        <div class="receipt">
+          <h3>many cheap turns</h3>
+          <p>Forty requests. Quality changes: zero. The burst finishes in seconds. The paced run lasts the window.</p>
+          <div class="bars">
+            <div class="bar-row"><span>normal</span><div class="track"><div class="fill short"></div></div><span>8s</span></div>
+            <div class="bar-row"><span>slow</span><div class="track"><div class="fill long"></div></div><span>5h 14m</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="num">01</div>
+          <h3>same model</h3>
+          <p>No quieter reasoning, no shorter context, no skipped checks. The trade is wall-clock time.</p>
+        </article>
+        <article class="step">
+          <div class="num">02</div>
+          <h3>one request at a time</h3>
+          <p>Follow-ups, reviews, and subagent model calls share one gate. Their calls wait. They are not dropped.</p>
+        </article>
+        <article class="step">
+          <div class="num">03</div>
+          <h3>this session only</h3>
+          <p>Nothing is written to your saved config. The next <em>codex</em> starts at the normal pace.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="honest">
+      <p class="section-kicker">02 · the boundary</p>
+      <h2>it chooses when. that is the whole product.</h2>
+      <p class="sub">Slow Mode is client-side pacing of requests you were going to send. It is not a cheaper call and it is not a way around the limit.</p>
+      <div class="compare">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>slow mode</th>
+            <th>a smaller model</th>
+            <th>waiting by hand</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>keeps the model you picked</td>
+            <td class="yes">yes</td>
+            <td>switches it</td>
+            <td class="yes">yes</td>
+          </tr>
+          <tr>
+            <td>paces before the request is sent</td>
+            <td class="yes">yes</td>
+            <td>no</td>
+            <td>only if you remember</td>
+          </tr>
+          <tr>
+            <td>lets compile and tests run</td>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+          </tr>
+          <tr>
+            <td>makes one request cost less</td>
+            <td>no</td>
+            <td>sometimes</td>
+            <td>no</td>
+          </tr>
+          <tr>
+            <td>guarantees the allowance lasts</td>
+            <td>no</td>
+            <td>no</td>
+            <td>no</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="use">
+      <div class="install">
+        <div>
+          <p class="section-kicker">03 · the command</p>
+          <h2>open codex. type the slash.</h2>
+          <p class="sub">Bare <strong>/slow-mode</strong> means on. <strong>/slow-mode status</strong> and <strong>/slow-mode off</strong> stay on this machine. They do not spend a model turn.</p>
+        </div>
+        <div>
+          <pre>codex
+
+&gt; /slow-mode
+Slow mode enabled for this session.
+
+&gt; Build the feature…</pre>
+          <p class="note">Fast mode stays off while Slow Mode is on, then returns when you turn it off. Your saved preference is left alone.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>slow mode · a session pace for codex</span>
+      <span><a href="https://github.com/arjunkshah12345-hash/codex-slow-mode">source</a> · apache-2.0</span>
+    </footer>
+  </div>
+</body>
+</html>
