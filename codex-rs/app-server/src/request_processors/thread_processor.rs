@@ -936,6 +936,43 @@ impl ThreadRequestProcessor {
             .map(|response| Some(response.into()))
     }
 
+    /// Enable, disable, or report session slow mode. Does not start a turn.
+    pub(crate) async fn thread_slow_mode(
+        &self,
+        params: ThreadSlowModeParams,
+    ) -> Result<Option<ClientResponsePayload>, JSONRPCErrorError> {
+        let ThreadSlowModeParams { thread_id, action } = params;
+        let status = match action.trim().to_ascii_lowercase().as_str() {
+            "" | "on" | "enable" | "enabled" => codex_core::slow_mode::enable(&thread_id),
+            "off" | "disable" | "disabled" => codex_core::slow_mode::disable(&thread_id),
+            "status" => codex_core::slow_mode::status_for(&thread_id),
+            other => {
+                return Err(invalid_request(format!(
+                    "unknown slow mode action `{other}`; expected on, off, or status"
+                )));
+            }
+        };
+        let secs =
+            |duration: Option<std::time::Duration>| duration.map(|duration| duration.as_secs());
+        Ok(Some(
+            ThreadSlowModeResponse {
+                enabled: status.enabled,
+                model: status.model,
+                fast_mode: status.fast_mode,
+                primary_used_percent: status.primary_used_percent,
+                primary_resets_in_secs: secs(status.primary_resets_in),
+                secondary_used_percent: status.secondary_used_percent,
+                secondary_resets_in_secs: secs(status.secondary_resets_in),
+                estimated_request_cost_percent: status.estimated_request_cost_percent,
+                next_eligible_in_secs: secs(status.next_eligible_in),
+                queued_model_requests: status.queued_model_requests as u64,
+                preserving_secondary: status.preserving_secondary,
+                note: status.note,
+            }
+            .into(),
+        ))
+    }
+
     pub(crate) async fn thread_approve_guardian_denied_action(
         &self,
         request_id: &ConnectionRequestId,

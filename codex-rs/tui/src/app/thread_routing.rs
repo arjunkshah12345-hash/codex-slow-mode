@@ -1013,6 +1013,15 @@ impl App {
                     .await?;
                 Ok(true)
             }
+            AppCommand::SetSlowMode { action } => {
+                let response = app_server
+                    .thread_slow_mode(thread_id, action.clone())
+                    .await?;
+                if action == "status" {
+                    self.chat_widget.show_slow_mode_report(response);
+                }
+                Ok(true)
+            }
             _ => Ok(false),
         }
     }

@@ -334,6 +334,10 @@ fn left_side_line(
     key_hints: FooterKeyHints,
 ) -> Line<'static> {
     let mut line = Line::from("");
+    if crate::slow_mode_badge::is_on() {
+        line.push_span(Span::styled("SLOW", secondary_text_style()));
+        line.push_span(Span::styled(" · ", secondary_text_style()));
+    }
     match state.hint {
         SummaryHintKind::None => {}
         SummaryHintKind::Shortcuts => {

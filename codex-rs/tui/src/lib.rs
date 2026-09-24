@@ -197,6 +197,7 @@ mod session_state;
 mod shortcut_help;
 mod skills_helpers;
 mod slash_command;
+mod slow_mode_badge;
 mod startup_draft;
 mod startup_error;
 mod startup_hooks_review;

@@ -188,6 +188,10 @@ pub(crate) enum AppCommand {
     ApproveGuardianDeniedAction {
         event: GuardianAssessmentEvent,
     },
+    /// Session-scoped slow mode. `action` is `on`, `off`, or `status`.
+    SetSlowMode {
+        action: String,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]

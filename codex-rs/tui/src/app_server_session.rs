@@ -108,6 +108,8 @@ use codex_app_server_protocol::ThreadSettingsUpdateParams;
 use codex_app_server_protocol::ThreadSettingsUpdateResponse;
 use codex_app_server_protocol::ThreadShellCommandParams;
 use codex_app_server_protocol::ThreadShellCommandResponse;
+use codex_app_server_protocol::ThreadSlowModeParams;
+use codex_app_server_protocol::ThreadSlowModeResponse;
 use codex_app_server_protocol::ThreadSource;
 use codex_app_server_protocol::ThreadStartParams;
 use codex_app_server_protocol::ThreadStartResponse;
@@ -1548,6 +1550,24 @@ impl AppServerSession {
             .await
             .wrap_err("thread/shellCommand failed in TUI")?;
         Ok(())
+    }
+
+    pub(crate) async fn thread_slow_mode(
+        &mut self,
+        thread_id: ThreadId,
+        action: String,
+    ) -> Result<ThreadSlowModeResponse> {
+        let request_id = self.next_request_id();
+        self.client
+            .request_typed(ClientRequest::ThreadSlowMode {
+                request_id,
+                params: ThreadSlowModeParams {
+                    thread_id: thread_id.to_string(),
+                    action,
+                },
+            })
+            .await
+            .wrap_err("thread/slowMode failed in TUI")
     }
 
     pub(crate) async fn thread_approve_guardian_denied_action(

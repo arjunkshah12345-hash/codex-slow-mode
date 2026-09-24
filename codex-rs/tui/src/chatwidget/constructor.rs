@@ -115,6 +115,7 @@ impl ChatWidget {
             config,
             local_settings,
             effective_service_tier,
+            slow_mode_latch: codex_slow_mode::FastSlowLatch::default(),
             skills_all: Vec::new(),
             skills_initial_state: None,
             current_collaboration_mode,

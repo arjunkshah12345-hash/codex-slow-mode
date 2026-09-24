@@ -1177,6 +1177,34 @@ pub struct ThreadShellCommandParams {
 #[ts(export_to = "v2/")]
 pub struct ThreadShellCommandResponse {}
 
+/// Session-scoped slow mode control. This RPC never starts a turn.
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
+#[serde(rename_all = "camelCase")]
+#[ts(export_to = "v2/")]
+pub struct ThreadSlowModeParams {
+    pub thread_id: String,
+    /// `on`, `off`, or `status`.
+    pub action: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
+#[serde(rename_all = "camelCase")]
+#[ts(export_to = "v2/")]
+pub struct ThreadSlowModeResponse {
+    pub enabled: bool,
+    pub model: Option<String>,
+    pub fast_mode: Option<bool>,
+    pub primary_used_percent: Option<f64>,
+    pub primary_resets_in_secs: Option<u64>,
+    pub secondary_used_percent: Option<f64>,
+    pub secondary_resets_in_secs: Option<u64>,
+    pub estimated_request_cost_percent: Option<f64>,
+    pub next_eligible_in_secs: Option<u64>,
+    pub queued_model_requests: u64,
+    pub preserving_secondary: bool,
+    pub note: Option<String>,
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 #[serde(rename_all = "camelCase")]
 #[ts(export_to = "v2/")]

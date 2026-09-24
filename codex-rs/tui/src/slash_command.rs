@@ -51,6 +51,8 @@ pub enum SlashCommand {
     Diff,
     Mention,
     Status,
+    #[strum(serialize = "slow-mode")]
+    SlowMode,
     Daemon,
     Warnings,
     Cd,
@@ -116,6 +118,7 @@ impl SlashCommand {
             SlashCommand::Daemon => "Manage the local background server",
             SlashCommand::Warnings => "view retained warnings and diagnostic details",
             SlashCommand::Status => "show current session configuration and token usage",
+            SlashCommand::SlowMode => "pace model requests to spread usage across this session",
             SlashCommand::Cd => "change the current working directory",
             SlashCommand::Pwd => "show the current working directory",
             SlashCommand::Usage => "view account usage or use a usage limit reset",
@@ -182,6 +185,7 @@ impl SlashCommand {
                 | SlashCommand::Cd
                 | SlashCommand::Pwd
                 | SlashCommand::Usage
+                | SlashCommand::SlowMode
                 | SlashCommand::Pets
                 | SlashCommand::Side
                 | SlashCommand::Btw
@@ -204,6 +208,7 @@ impl SlashCommand {
                 | SlashCommand::Warnings
                 | SlashCommand::Pwd
                 | SlashCommand::Usage
+                | SlashCommand::SlowMode
                 | SlashCommand::Ide
         )
     }
@@ -276,6 +281,7 @@ impl SlashCommand {
             | SlashCommand::Warnings
             | SlashCommand::Pwd
             | SlashCommand::Usage
+            | SlashCommand::SlowMode
             | SlashCommand::DebugConfig
             | SlashCommand::Ps
             | SlashCommand::Stop

@@ -506,6 +506,9 @@ impl ChatWidget {
             }
             SlashCommand::Daemon => self.app_event_tx.send(AppEvent::OpenDaemonMenu),
             SlashCommand::Warnings => self.app_event_tx.send(AppEvent::OpenWarnings),
+            SlashCommand::SlowMode => {
+                self.handle_slow_mode("");
+            }
             SlashCommand::Status => {
                 if self.should_prefetch_rate_limits() {
                     let request_id = self.next_status_refresh_request_id;
@@ -776,6 +779,7 @@ impl ChatWidget {
             SlashCommand::Pwd => {
                 self.add_error_message("Usage: /pwd".to_string());
             }
+            SlashCommand::SlowMode => self.handle_slow_mode(trimmed),
             SlashCommand::Usage => {
                 if self.ensure_usage_command_available() {
                     match crate::analytics::TokenActivityView::parse(trimmed) {
@@ -1195,6 +1199,80 @@ impl ChatWidget {
         }
     }
 
+    fn handle_slow_mode(&mut self, args: &str) {
+        let action = match codex_slow_mode::parse_slow_mode_args(args) {
+            Ok(action) => action,
+            Err(message) => {
+                self.add_error_message(message);
+                return;
+            }
+        };
+        match action {
+            codex_slow_mode::SlowModeAction::On => {
+                let current_tier = self.current_service_tier().map(str::to_string);
+                let outcome = self.slow_mode_latch.enable(current_tier.as_deref());
+                if let codex_slow_mode::TierDirective::SetSessionTier(tier) = outcome.directive {
+                    self.apply_session_service_tier_without_persist(tier);
+                }
+                crate::slow_mode_badge::set(true);
+                self.app_event_tx
+                    .send(AppEvent::CodexOp(AppCommand::SetSlowMode {
+                        action: "on".to_string(),
+                    }));
+                self.add_info_message(outcome.message, /*hint*/ None);
+            }
+            codex_slow_mode::SlowModeAction::Off => {
+                let outcome = self.slow_mode_latch.disable();
+                if let codex_slow_mode::TierDirective::SetSessionTier(tier) = outcome.directive {
+                    self.apply_session_service_tier_without_persist(tier);
+                }
+                crate::slow_mode_badge::set(false);
+                self.app_event_tx
+                    .send(AppEvent::CodexOp(AppCommand::SetSlowMode {
+                        action: "off".to_string(),
+                    }));
+                self.add_info_message(outcome.message, /*hint*/ None);
+            }
+            codex_slow_mode::SlowModeAction::Status => {
+                self.app_event_tx
+                    .send(AppEvent::CodexOp(AppCommand::SetSlowMode {
+                        action: "status".to_string(),
+                    }));
+            }
+        }
+    }
+
+    pub(crate) fn show_slow_mode_report(
+        &mut self,
+        response: codex_app_server_protocol::ThreadSlowModeResponse,
+    ) {
+        let duration = |secs: Option<u64>| secs.map(std::time::Duration::from_secs);
+        let fast_mode = if self.slow_mode_latch.enabled() {
+            Some(false)
+        } else {
+            Some(self.current_service_tier().is_some_and(|tier| {
+                tier.eq_ignore_ascii_case("fast") || tier.eq_ignore_ascii_case("priority")
+            }))
+        };
+        let status = codex_slow_mode::SlowModeStatus {
+            enabled: response.enabled,
+            model: response
+                .model
+                .or_else(|| Some(self.current_model().to_string())),
+            fast_mode,
+            primary_used_percent: response.primary_used_percent,
+            primary_resets_in: duration(response.primary_resets_in_secs),
+            secondary_used_percent: response.secondary_used_percent,
+            secondary_resets_in: duration(response.secondary_resets_in_secs),
+            estimated_request_cost_percent: response.estimated_request_cost_percent,
+            next_eligible_in: duration(response.next_eligible_in_secs),
+            queued_model_requests: response.queued_model_requests as usize,
+            preserving_secondary: response.preserving_secondary,
+            note: response.note,
+        };
+        self.add_info_message(codex_slow_mode::render_status(&status), /*hint*/ None);
+    }
+
     fn ensure_usage_command_available(&mut self) -> bool {
         if self.has_codex_backend_auth {
             return true;
@@ -1209,6 +1287,7 @@ impl ChatWidget {
         }
         match cmd {
             SlashCommand::Ide
+            | SlashCommand::SlowMode
             | SlashCommand::Status
             | SlashCommand::Daemon
             | SlashCommand::Pwd

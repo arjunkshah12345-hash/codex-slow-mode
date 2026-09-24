@@ -48,11 +48,15 @@ impl ChatWidget {
     pub(crate) fn can_toggle_fast_mode_from_keybinding(&self) -> bool {
         self.fast_mode_enabled()
             && self.current_model_fast_service_tier().is_some()
+            && !self.slow_mode_latch.enabled()
             && !self.is_user_turn_pending_or_running()
             && self.bottom_pane.no_modal_or_popup_active()
     }
 
     pub(crate) fn toggle_fast_mode_from_ui(&mut self) {
+        if self.reject_fast_while_slow_mode() {
+            return;
+        }
         let Some(fast_tier) = self.current_model_fast_service_tier() else {
             return;
         };
@@ -65,6 +69,9 @@ impl ChatWidget {
     }
 
     pub(crate) fn toggle_service_tier_from_ui(&mut self, command: ServiceTierCommand) {
+        if command.name.eq_ignore_ascii_case("fast") && self.reject_fast_while_slow_mode() {
+            return;
+        }
         let next_tier = if self.current_service_tier() == Some(command.id.as_str()) {
             Some(SERVICE_TIER_DEFAULT_REQUEST_VALUE.to_string())
         } else {
@@ -102,6 +109,43 @@ impl ChatWidget {
                     })
             })
             .unwrap_or_default()
+    }
+
+    pub(crate) fn apply_session_service_tier_without_persist(
+        &mut self,
+        service_tier: Option<String>,
+    ) {
+        let applied = match service_tier.as_deref() {
+            Some(tier) if tier == SERVICE_TIER_DEFAULT_REQUEST_VALUE || tier.is_empty() => None,
+            other => other.map(str::to_string),
+        };
+        self.effective_service_tier = applied.clone();
+        self.refresh_model_dependent_surfaces();
+        self.app_event_tx
+            .send(AppEvent::CodexOp(AppCommand::override_turn_context(
+                /*cwd*/ None,
+                /*approval_policy*/ None,
+                /*approvals_reviewer*/ None,
+                /*permission_profile*/ None,
+                /*active_permission_profile*/ None,
+                /*model*/ None,
+                /*effort*/ None,
+                /*summary*/ None,
+                Some(applied),
+                /*collaboration_mode*/ None,
+                /*personality*/ None,
+            )));
+    }
+
+    fn reject_fast_while_slow_mode(&mut self) -> bool {
+        if !self.slow_mode_latch.enabled() {
+            return false;
+        }
+        let Some(outcome) = self.slow_mode_latch.reject_fast() else {
+            return false;
+        };
+        self.add_info_message(outcome.message, /*hint*/ None);
+        true
     }
 
     fn set_service_tier_selection(&mut self, service_tier: Option<String>) {

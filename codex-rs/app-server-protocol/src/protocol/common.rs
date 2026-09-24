@@ -729,6 +729,11 @@ client_request_definitions! {
         serialization: thread_id(params.thread_id),
         response: v2::ThreadShellCommandResponse,
     },
+    ThreadSlowMode => "thread/slowMode" {
+        params: v2::ThreadSlowModeParams,
+        serialization: thread_id(params.thread_id),
+        response: v2::ThreadSlowModeResponse,
+    },
     ThreadApproveGuardianDeniedAction => "thread/approveGuardianDeniedAction" {
         params: v2::ThreadApproveGuardianDeniedActionParams,
         serialization: thread_id(params.thread_id),
