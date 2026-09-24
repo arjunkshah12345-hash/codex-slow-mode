@@ -1,0 +1,26 @@
+[package]
+name = "codex-slow-mode"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Session-scoped pacing for Codex model requests"
+
+[lib]
+name = "codex_slow_mode"
+path = "src/lib.rs"
+doctest = false
+
+[[bin]]
+name = "slow-mode-simulate"
+path = "src/bin/simulate.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+tokio = { workspace = true, features = ["macros", "rt", "sync", "time"] }
+tokio-util = { workspace = true, features = ["rt"] }
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+tokio = { workspace = true, features = ["macros", "rt", "rt-multi-thread", "sync", "time"] }

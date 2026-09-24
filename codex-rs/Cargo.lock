@@ -2926,6 +2926,7 @@ dependencies = [
  "codex-shell-escalation",
  "codex-skills",
  "codex-skills-extension",
+ "codex-slow-mode",
  "codex-state",
  "codex-terminal-detection",
  "codex-test-binary-support",
@@ -4550,6 +4551,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "codex-slow-mode"
+version = "0.0.0"
+dependencies = [
+ "pretty_assertions",
+ "tokio",
+ "tokio-util",
+]
+
+[[package]]
 name = "codex-state"
 version = "0.0.0"
 dependencies = [
@@ -4738,6 +4748,7 @@ dependencies = [
  "codex-rollout",
  "codex-sandboxing",
  "codex-shell-command",
+ "codex-slow-mode",
  "codex-state",
  "codex-terminal-detection",
  "codex-uds",
