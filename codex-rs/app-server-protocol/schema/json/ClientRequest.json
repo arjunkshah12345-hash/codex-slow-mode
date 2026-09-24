@@ -5202,6 +5202,23 @@
       ],
       "type": "object"
     },
+    "ThreadSlowModeParams": {
+      "description": "Session-scoped slow mode control. This RPC never starts a turn.",
+      "properties": {
+        "action": {
+          "description": "`on`, `off`, or `status`.",
+          "type": "string"
+        },
+        "threadId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "threadId"
+      ],
+      "type": "object"
+    },
     "ThreadSortKey": {
       "enum": [
         "created_at",
@@ -6383,6 +6400,30 @@
         "params"
       ],
       "title": "Thread/shellCommandRequest",
+      "type": "object"
+    },
+    {
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/RequestId"
+        },
+        "method": {
+          "enum": [
+            "thread/slowMode"
+          ],
+          "title": "Thread/slowModeRequestMethod",
+          "type": "string"
+        },
+        "params": {
+          "$ref": "#/definitions/ThreadSlowModeParams"
+        }
+      },
+      "required": [
+        "id",
+        "method",
+        "params"
+      ],
+      "title": "Thread/slowModeRequest",
       "type": "object"
     },
     {

@@ -580,6 +580,8 @@ export type { ThreadSettings } from "./ThreadSettings";
 export type { ThreadSettingsUpdatedNotification } from "./ThreadSettingsUpdatedNotification";
 export type { ThreadShellCommandParams } from "./ThreadShellCommandParams";
 export type { ThreadShellCommandResponse } from "./ThreadShellCommandResponse";
+export type { ThreadSlowModeParams } from "./ThreadSlowModeParams";
+export type { ThreadSlowModeResponse } from "./ThreadSlowModeResponse";
 export type { ThreadSortKey } from "./ThreadSortKey";
 export type { ThreadSource } from "./ThreadSource";
 export type { ThreadSourceKind } from "./ThreadSourceKind";

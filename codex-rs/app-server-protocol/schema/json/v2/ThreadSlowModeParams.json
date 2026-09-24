@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Session-scoped slow mode control. This RPC never starts a turn.",
+  "properties": {
+    "action": {
+      "description": "`on`, `off`, or `status`.",
+      "type": "string"
+    },
+    "threadId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "action",
+    "threadId"
+  ],
+  "title": "ThreadSlowModeParams",
+  "type": "object"
+}

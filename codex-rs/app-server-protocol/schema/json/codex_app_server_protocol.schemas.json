@@ -667,6 +667,30 @@
             },
             "method": {
               "enum": [
+                "thread/slowMode"
+              ],
+              "title": "Thread/slowModeRequestMethod",
+              "type": "string"
+            },
+            "params": {
+              "$ref": "#/definitions/v2/ThreadSlowModeParams"
+            }
+          },
+          "required": [
+            "id",
+            "method",
+            "params"
+          ],
+          "title": "Thread/slowModeRequest",
+          "type": "object"
+        },
+        {
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/v2/RequestId"
+            },
+            "method": {
+              "enum": [
                 "thread/approveGuardianDeniedAction"
               ],
               "title": "Thread/approveGuardianDeniedActionRequestMethod",
@@ -24651,6 +24675,111 @@
       "ThreadShellCommandResponse": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "title": "ThreadShellCommandResponse",
+        "type": "object"
+      },
+      "ThreadSlowModeParams": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "description": "Session-scoped slow mode control. This RPC never starts a turn.",
+        "properties": {
+          "action": {
+            "description": "`on`, `off`, or `status`.",
+            "type": "string"
+          },
+          "threadId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "threadId"
+        ],
+        "title": "ThreadSlowModeParams",
+        "type": "object"
+      },
+      "ThreadSlowModeResponse": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "estimatedRequestCostPercent": {
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fastMode": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nextEligibleInSecs": {
+            "format": "uint64",
+            "minimum": 0.0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "preservingSecondary": {
+            "type": "boolean"
+          },
+          "primaryResetsInSecs": {
+            "format": "uint64",
+            "minimum": 0.0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "primaryUsedPercent": {
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "queuedModelRequests": {
+            "format": "uint64",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "secondaryResetsInSecs": {
+            "format": "uint64",
+            "minimum": 0.0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "secondaryUsedPercent": {
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "enabled",
+          "preservingSecondary",
+          "queuedModelRequests"
+        ],
+        "title": "ThreadSlowModeResponse",
         "type": "object"
       },
       "ThreadSortKey": {

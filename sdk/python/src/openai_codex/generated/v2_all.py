@@ -6082,6 +6082,36 @@ class ThreadShellCommandResponse(BaseModel):
     )
 
 
+class ThreadSlowModeParams(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    action: Annotated[str, Field(description="`on`, `off`, or `status`.")]
+    thread_id: Annotated[str, Field(alias="threadId")]
+
+
+class ThreadSlowModeResponse(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    enabled: bool
+    estimated_request_cost_percent: Annotated[
+        float | None, Field(alias="estimatedRequestCostPercent")
+    ] = None
+    fast_mode: Annotated[bool | None, Field(alias="fastMode")] = None
+    model: str | None = None
+    next_eligible_in_secs: Annotated[int | None, Field(alias="nextEligibleInSecs", ge=0)] = None
+    note: str | None = None
+    preserving_secondary: Annotated[bool, Field(alias="preservingSecondary")]
+    primary_resets_in_secs: Annotated[int | None, Field(alias="primaryResetsInSecs", ge=0)] = None
+    primary_used_percent: Annotated[float | None, Field(alias="primaryUsedPercent")] = None
+    queued_model_requests: Annotated[int, Field(alias="queuedModelRequests", ge=0)]
+    secondary_resets_in_secs: Annotated[int | None, Field(alias="secondaryResetsInSecs", ge=0)] = (
+        None
+    )
+    secondary_used_percent: Annotated[float | None, Field(alias="secondaryUsedPercent")] = None
+
+
 class ThreadSortKey(Enum):
     created_at = "created_at"
     updated_at = "updated_at"
@@ -6926,6 +6956,15 @@ class ThreadShellCommandRequest(BaseModel):
         Literal["thread/shellCommand"], Field(title="Thread/shellCommandRequestMethod")
     ]
     params: ThreadShellCommandParams
+
+
+class ThreadSlowModeRequest(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    id: RequestId
+    method: Annotated[Literal["thread/slowMode"], Field(title="Thread/slowModeRequestMethod")]
+    params: ThreadSlowModeParams
 
 
 class ThreadApproveGuardianDeniedActionRequest(BaseModel):
@@ -12576,6 +12615,7 @@ class ClientRequest(
         | ThreadUnarchiveRequest
         | ThreadCompactStartRequest
         | ThreadShellCommandRequest
+        | ThreadSlowModeRequest
         | ThreadApproveGuardianDeniedActionRequest
         | ThreadRevertRequest
         | ThreadListRequest
@@ -12686,6 +12726,7 @@ class ClientRequest(
         | ThreadUnarchiveRequest
         | ThreadCompactStartRequest
         | ThreadShellCommandRequest
+        | ThreadSlowModeRequest
         | ThreadApproveGuardianDeniedActionRequest
         | ThreadRevertRequest
         | ThreadListRequest

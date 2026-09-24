@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "estimatedRequestCostPercent": {
+      "format": "double",
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "fastMode": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "nextEligibleInSecs": {
+      "format": "uint64",
+      "minimum": 0.0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "preservingSecondary": {
+      "type": "boolean"
+    },
+    "primaryResetsInSecs": {
+      "format": "uint64",
+      "minimum": 0.0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "primaryUsedPercent": {
+      "format": "double",
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "queuedModelRequests": {
+      "format": "uint64",
+      "minimum": 0.0,
+      "type": "integer"
+    },
+    "secondaryResetsInSecs": {
+      "format": "uint64",
+      "minimum": 0.0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "secondaryUsedPercent": {
+      "format": "double",
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "enabled",
+    "preservingSecondary",
+    "queuedModelRequests"
+  ],
+  "title": "ThreadSlowModeResponse",
+  "type": "object"
+}
