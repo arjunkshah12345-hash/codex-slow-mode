@@ -220,6 +220,10 @@ pub use attestation::AttestationProvider;
 pub use attestation::GenerateAttestationFuture;
 pub use client::ModelClient;
 pub use client::ModelClientSession;
+pub mod slow_mode {
+    //! Re-export of the session pacer used by the model request gate.
+    pub use codex_slow_mode::*;
+}
 pub use client::X_CODEX_INSTALLATION_ID_HEADER;
 pub use client::X_CODEX_ROUTING_HINT_HEADER;
 pub use client::X_CODEX_TURN_METADATA_HEADER;

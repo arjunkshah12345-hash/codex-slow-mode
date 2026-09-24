@@ -66,6 +66,7 @@ codex-rmcp-client = { workspace = true }
 codex-sandboxing = { workspace = true }
 codex-skills = { workspace = true }
 codex-skills-extension = { workspace = true }
+codex-slow-mode = { workspace = true }
 codex-state = { workspace = true }
 codex-agent-message-board-extension = { workspace = true }
 codex-terminal-detection = { workspace = true }

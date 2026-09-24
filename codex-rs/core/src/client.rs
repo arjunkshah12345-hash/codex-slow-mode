@@ -2197,6 +2197,67 @@ impl ModelClientSession {
         responses_metadata: &CodexResponsesMetadata,
         inference_trace: &InferenceTraceContext,
     ) -> Result<ResponseStream> {
+        let parent_thread_id = self
+            .client
+            .state
+            .session_source
+            .parent_thread_id()
+            .map(|thread_id| thread_id.to_string());
+        let thread_id = self.client.state.thread_id.to_string();
+        let event_sender = self.client.event_sender.clone();
+        let ui = std::sync::Arc::new(move |message: &str| {
+            let Some(event_sender) = &event_sender else {
+                return;
+            };
+            let _ = event_sender.try_send(ProtocolEvent {
+                id: "slow-mode".to_string(),
+                msg: EventMsg::StreamError(codex_protocol::protocol::StreamErrorEvent {
+                    message: message.to_string(),
+                    codex_error_info: None,
+                    additional_details: None,
+                }),
+            });
+        });
+        // Pace before any Responses request is built or sent. Tool work that
+        // never reaches this method is not delayed.
+        let permit = codex_slow_mode::before_model_request(
+            &thread_id,
+            parent_thread_id.as_deref(),
+            ui.as_ref(),
+        )
+        .await
+        .map_err(|_| CodexErr::Interrupted)?;
+        let mut stream = self
+            .stream_after_slow_mode_gate(
+                prompt,
+                model_info,
+                session_telemetry,
+                effort,
+                summary,
+                service_tier,
+                responses_metadata,
+                inference_trace,
+            )
+            .await?;
+        tracing::debug!(
+            waited_ms = permit.waited.as_millis() as u64,
+            "slow mode granted a model request"
+        );
+        stream.slow_mode_permit = Some(permit);
+        Ok(stream)
+    }
+
+    async fn stream_after_slow_mode_gate(
+        &mut self,
+        prompt: &Prompt,
+        model_info: &ModelInfo,
+        session_telemetry: &SessionTelemetry,
+        effort: Option<ReasoningEffortConfig>,
+        summary: ReasoningSummaryConfig,
+        service_tier: Option<String>,
+        responses_metadata: &CodexResponsesMetadata,
+        inference_trace: &InferenceTraceContext,
+    ) -> Result<ResponseStream> {
         let wire_api = self.client.state.provider.info().wire_api;
         match wire_api {
             WireApi::Responses => {
@@ -2486,6 +2547,7 @@ where
         ResponseStream {
             rx_event,
             consumer_dropped: consumer_dropped_for_stream,
+            slow_mode_permit: None,
         },
         rx_last_response,
     )

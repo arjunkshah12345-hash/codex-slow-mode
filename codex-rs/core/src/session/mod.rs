@@ -815,6 +815,7 @@ impl Session {
         );
         let service_tier =
             get_service_tier(config.service_tier.clone(), fast_mode_enabled, &model_info);
+        let slow_mode_parent = parent_thread_id.map(|thread_id| thread_id.to_string());
         let session_configuration = SessionConfiguration {
             provider: create_model_provider(
                 config.model_provider.clone(),
@@ -920,6 +921,7 @@ impl Session {
                 .await;
         }
         let thread_id = session.thread_id;
+        codex_slow_mode::note_parent(&thread_id.to_string(), slow_mode_parent.as_deref());
 
         // This task will run until Op::Shutdown is received.
         let session_for_loop = Arc::clone(&session);
@@ -4844,7 +4846,29 @@ impl Session {
     pub(crate) async fn record_rate_limits_info(&self, new_rate_limits: RateLimitSnapshot) {
         {
             let mut state = self.state.lock().await;
-            state.set_rate_limits(new_rate_limits);
+            state.set_rate_limits(new_rate_limits.clone());
+        }
+        codex_slow_mode::record_rate_limits(
+            &self.thread_id.to_string(),
+            Self::rate_snapshot_for_slow_mode(&new_rate_limits),
+        );
+    }
+
+    fn rate_snapshot_for_slow_mode(snapshot: &RateLimitSnapshot) -> codex_slow_mode::RateSnapshot {
+        use codex_protocol::protocol::RateLimitWindow;
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_millis() as i64;
+        let window = |window: &RateLimitWindow| codex_slow_mode::UsageWindow {
+            used_percent: window.used_percent,
+            window_minutes: window.window_minutes,
+            resets_at_unix_secs: window.resets_at,
+        };
+        codex_slow_mode::RateSnapshot {
+            primary: snapshot.primary.as_ref().map(window),
+            secondary: snapshot.secondary.as_ref().map(window),
+            observed_unix_ms: now,
         }
     }
 
@@ -4985,6 +5009,7 @@ impl Session {
 
     pub async fn interrupt_task(self: &Arc<Self>) {
         info!("interrupt received: abort current task, if any");
+        codex_slow_mode::cancel_waits(&self.thread_id.to_string());
         let had_active_turn = self.active_turn.lock().await.is_some();
         self.abort_all_tasks(TurnAbortReason::Interrupted).await;
         if !had_active_turn {

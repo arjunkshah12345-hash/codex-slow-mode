@@ -32,6 +32,7 @@ async fn interceptors_forward_before_completion_in_order_and_cancel_upstream() {
             ResponseStream {
                 rx_event,
                 consumer_dropped,
+                slow_mode_permit: None,
             }
             .map(|event| {
                 event.map_err(|error| {

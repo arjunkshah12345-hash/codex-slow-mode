@@ -120,6 +120,9 @@ pub struct ResponseStream {
     /// Signals the mapper task that the consumer stopped polling before the
     /// provider stream reached its own terminal event.
     pub(crate) consumer_dropped: CancellationToken,
+    /// Held until this stream is dropped so the next model request cannot
+    /// start while this one is still in flight.
+    pub(crate) slow_mode_permit: Option<codex_slow_mode::InferencePermit>,
 }
 
 impl Stream for ResponseStream {

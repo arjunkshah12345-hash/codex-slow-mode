@@ -333,6 +333,7 @@ async fn emit_thread_stop_lifecycle(sess: &Session) {
 }
 
 pub async fn shutdown(sess: &Arc<Session>, sub_id: String) -> bool {
+    codex_slow_mode::shutdown_thread(&sess.thread_id.to_string());
     shutdown_session_runtime(sess).await;
     info!("Shutting down Codex instance");
     let history = sess.clone_history().await;
