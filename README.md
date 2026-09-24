@@ -49,6 +49,19 @@ brew install --cask codex
 
 Then simply run `codex` to get started.
 
+## Slow Mode
+
+Slow Mode is for the case where you have plenty of wall-clock time and do not want an autonomous coding task to burn through the five-hour Codex allowance in a short burst. It keeps the same model, reasoning, and tools, and spaces model requests using the rate-limit snapshot Codex already tracks.
+
+```text
+codex
+
+> /slow-mode
+Slow mode enabled for this session.
+```
+
+`/slow-mode status` and `/slow-mode off` are local controls. The setting lasts for the current session only. Details, the pacing model, and what this does not do are in [docs/slow-mode.md](./docs/slow-mode.md).
+
 <details>
 <summary>You can also go to the <a href="https://github.com/openai/codex/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
 
@@ -76,6 +89,7 @@ You can also use Codex with an API key, but this requires [additional setup](htt
 - [**Codex Documentation**](https://developers.openai.com/codex)
 - [**Contributing**](./docs/contributing.md)
 - [**Installing & building**](./docs/install.md)
+- [**Slow Mode**](./docs/slow-mode.md)
 - [**Open source fund**](./docs/open-source-fund.md)
 
 This repository is licensed under the [Apache-2.0 License](LICENSE).
