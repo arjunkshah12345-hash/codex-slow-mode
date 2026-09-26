@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Slow Mode</title>
-  <meta name="description" content="Type /slow-mode in Codex. Same model, same tools. Requests take their turn across the window you already have." />
+  <title>Slow Mode — same Codex, paced</title>
+  <meta name="description" content="Type /slow-mode in Codex. Same model, same tools. Model requests take their turn across the window you already have." />
   <meta property="og:title" content="Slow Mode" />
   <meta property="og:description" content="Same Codex. Paced for the session." />
   <meta property="og:image" content="https://codex-slow-mode.vercel.app/brand/og.png" />
@@ -16,85 +16,128 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="frame">
+  <div class="topbar">Session scoped. Nothing is written to your saved config. <a href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">Read the notes</a></div>
+  <div class="wrap">
     <nav>
-      <a class="brand" href="#top">
-        <img src="brand/mark.svg" alt="" />
-        Slow Mode
-      </a>
+      <a class="brand" href="#top"><img src="brand/mark.svg" alt="" /> Slow Mode</a>
       <div class="nav-links">
-        <a href="#how">How it works</a>
+        <a href="#cases">How it works</a>
+        <a href="#command">Command</a>
         <a href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">Notes</a>
-        <a class="gh" href="https://github.com/arjunkshah12345-hash/codex-slow-mode">GitHub</a>
+        <a class="btn solid sm" href="https://github.com/arjunkshah12345-hash/codex-slow-mode">GitHub</a>
       </div>
     </nav>
 
     <header class="hero" id="top">
-      <div class="hero-copy">
-        <p class="eyebrow">This session only</p>
-        <h1>Same Codex.<br /><em>Paced.</em></h1>
-        <p class="lede">You have the afternoon. You do not want one task to spend the five-hour allowance in a burst. The model, the tools, and the checks stay. Only the timing of model requests changes.</p>
-        <div class="cmd">
-          <span>$</span> codex
-          <a href="#how">/slow-mode</a>
-        </div>
+      <h1>Same Codex. Paced.</h1>
+      <p class="lede">A session pace for model requests, follow-ups, and reviews. The model, the tools, and the checks stay. Only the timing changes.</p>
+      <div class="actions">
+        <a class="btn solid" href="#command">Start a session</a>
+        <a class="btn ghost" href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">Read the notes</a>
       </div>
-      <div class="hero-panel">
-        <div class="session" aria-label="Slow Mode session">
-          <div><span class="dim">&gt; </span>/slow-mode</div>
-          <div class="go">Slow mode enabled for this session.</div>
-          <div><span class="dim">&gt; </span>Build the feature…</div>
-          <div class="dim">same model · requests take their turn</div>
-          <div class="meta">
-            <span>SLOW</span>
-            <span>next model request in ~1m 42s</span>
+
+      <div class="stage-wrap">
+        <div class="stage" aria-label="A Codex session with Slow Mode on">
+          <div class="stage-bar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span>session</span>
+            <span></span>
+          </div>
+          <div class="split">
+            <div class="art">
+              <img src="brand/mark.svg" alt="" />
+              <div class="caption">Slow mode enabled for this session.</div>
+            </div>
+            <div class="code">
+              <div><span class="n">1</span> codex</div>
+              <div><span class="n">2</span> &gt; /slow-mode</div>
+              <div class="ok"><span class="n">3</span> Slow mode enabled for this session.</div>
+              <div><span class="n">4</span> &gt; Build the feature…</div>
+              <div><span class="n">5</span> same model · requests take their turn</div>
+              <div><span class="n">6</span> SLOW</div>
+              <div><span class="n">7</span> next model request in ~1m 42s</div>
+            </div>
+          </div>
+          <div class="stage-foot">
+            <span>/slow-mode</span>
+            <span>this session only</span>
           </div>
         </div>
       </div>
     </header>
 
-    <section class="strip" aria-label="What the pacing changes">
-      <div>
-        <small>Burst</small>
-        <strong>8s</strong>
-        <p>Forty requests, sent as fast as the session can.</p>
-      </div>
-      <div>
-        <small>Paced</small>
-        <strong>5h 14m</strong>
-        <p>The same forty requests, across the window.</p>
-      </div>
-      <div>
-        <small>Quality changes</small>
-        <strong>0</strong>
-        <p>Nothing written to your saved config.</p>
-      </div>
+    <section class="stats" aria-label="Pacing receipt">
+      <div><strong>8s</strong><span>Forty requests, sent in a burst</span></div>
+      <div><strong>5h 14m</strong><span>The same requests, paced</span></div>
+      <div><strong>0</strong><span>Quality changes</span></div>
     </section>
 
-    <section class="block" id="how">
-      <h2>It chooses when. That is the product.</h2>
-      <div class="rows">
-        <div class="row">
-          <span class="num">01</span>
-          <b>Same model</b>
+    <section id="cases">
+      <p class="kicker">The session</p>
+      <h2>Spend the allowance across the reset.</h2>
+
+      <article class="case">
+        <div>
+          <h3>Same model</h3>
           <p>No quieter reasoning, no shorter context, no skipped checks. The trade is wall-clock time.</p>
         </div>
-        <div class="row">
-          <span class="num">02</span>
-          <b>One request at a time</b>
+        <div class="case-card">
+          <div class="dim">model</div>
+          unchanged<br />
+          tools · on<br />
+          verification · on
+        </div>
+      </article>
+      <article class="case">
+        <div>
+          <h3>One request at a time</h3>
           <p>Follow-ups, reviews, and subagent model calls share one gate. Their calls wait. They are not dropped.</p>
         </div>
-        <div class="row">
-          <span class="num">03</span>
-          <b>Leaves the shell alone</b>
-          <p>Compile, tests, and file reads are not delayed. The wait happens before the model request is sent.</p>
+        <div class="case-card">
+          <div class="dim">queue</div>
+          review · waiting<br />
+          subagent · waiting<br />
+          shell · running
         </div>
-        <div class="row">
-          <span class="num">04</span>
-          <b>Not a cheaper call</b>
-          <p>Slow Mode does not make one request cost less, and it does not get around the limit.</p>
+      </article>
+      <article class="case">
+        <div>
+          <h3>This session only</h3>
+          <p>Nothing is written to your saved config. The next Codex starts at the normal pace. Fast mode returns when you turn this off.</p>
         </div>
-      </div>
+        <div class="case-card">
+          <div class="dim">config</div>
+          saved preference · untouched<br />
+          /slow-mode off · restores fast
+        </div>
+      </article>
+      <article class="case">
+        <div>
+          <h3>Not a cheaper call</h3>
+          <p>Slow Mode paces requests you were going to send. It does not make one request cost less, and it does not get around the limit.</p>
+        </div>
+        <div class="case-card">
+          <div class="dim">boundary</div>
+          cost per request · same<br />
+          server limit · still enforced
+        </div>
+      </article>
+    </section>
+
+    <section id="command">
+      <p class="kicker">The command</p>
+      <h2>Open Codex. Type the slash.</h2>
+      <pre class="command">codex
+
+&gt; /slow-mode
+<span class="dim">Slow mode enabled for this session.</span>
+
+&gt; Build the feature…</pre>
+    </section>
+
+    <section class="close">
+      <h2>Keep the model. Pace the session.</h2>
+      <a class="btn solid" href="https://github.com/arjunkshah12345-hash/codex-slow-mode">View the source</a>
     </section>
 
     <footer>
