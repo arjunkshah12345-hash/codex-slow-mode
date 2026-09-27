@@ -1,6 +1,8 @@
 ---
 name: remote-tests
 description: Testing against remote executors in integration tests.
+metadata:
+  internal: true
 ---
 
 Remote executor tests exercise the app-server/exec-server split to ensure that agent features work

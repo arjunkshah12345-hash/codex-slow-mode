@@ -1,6 +1,8 @@
 ---
 name: test-tui
 description: Guide for testing Codex TUI interactively
+metadata:
+  internal: true
 ---
 
 You can start and use Codex TUI to verify changes. 

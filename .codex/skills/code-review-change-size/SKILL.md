@@ -1,6 +1,8 @@
 ---
 name: code-review-change-size
 description: Change size guidance (800 lines)
+metadata:
+  internal: true
 ---
 
 Unless the change is mechanical the total number of changed lines should not exceed 800 lines.

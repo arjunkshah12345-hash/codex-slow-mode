@@ -7,7 +7,7 @@ Installing it does not replace Codex and does not write your saved config.
 ## Install
 
 ```shell
-npx skills add arjunkshah12345-hash/codex-slow-mode --skill slow-mode -a codex -g -y
+npx skills add arjunkshah12345-hash/codex-slow-mode
 ```
 
 That is the whole install. Codex stays the same until you run the skill.
@@ -17,10 +17,10 @@ That is the whole install. Codex stays the same until you run the skill.
 At the start of a session:
 
 ```text
-$slow-mode
+/slow-mode
 ```
 
-Slow mode stays on for that session. `$slow-mode off` turns it off. The next session starts at the normal pace unless you run the skill again.
+Slow mode stays on for that session. `/slow-mode off` turns it off. The next session starts at the normal pace unless you run the skill again.
 
 ## What it does
 

@@ -1,6 +1,8 @@
 ---
 name: code-breaking-changes
 description: Breaking changes
+metadata:
+  internal: true
 ---
 
 Search for breaking changes in external integration surfaces:

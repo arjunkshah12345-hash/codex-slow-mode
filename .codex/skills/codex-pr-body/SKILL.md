@@ -1,6 +1,8 @@
 ---
 name: codex-pr-body
 description: Update the title and body of one or more pull requests.
+metadata:
+  internal: true
 ---
 
 ## Determining the PR(s)

@@ -1,6 +1,8 @@
 ---
 name: code-review
 description: Run a final code review on a pull request
+metadata:
+  internal: true
 ---
 
 Use subagents to review code using all code-review-* skills other than this orchestrator. One subagent per skill. Pass full skill path to subagents. Use xhigh reasoning.

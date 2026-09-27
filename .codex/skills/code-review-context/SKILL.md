@@ -1,6 +1,8 @@
 ---
 name: code-review-context
 description: Model visible context
+metadata:
+  internal: true
 ---
 
 Codex maintains a context (history of messages) that is sent to the model in inference requests.

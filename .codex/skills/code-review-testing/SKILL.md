@@ -1,6 +1,8 @@
 ---
 name: code-review-testing
 description: Test authoring guidance
+metadata:
+  internal: true
 ---
 
 For agent changes prefer integration tests over unit tests. Integration tests are under `core/suite` and use `test_codex` to set up a test instance of codex.

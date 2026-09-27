@@ -1,6 +1,8 @@
 ---
 name: update-v8-version
 description: Update Codex's pinned `v8` / `rusty_v8` versions, validate the release-candidate path, and investigate failed V8 canary or artifact builds. Use when asked to bump V8, update `rusty_v8` artifacts, prepare or validate a V8 release candidate, check `v8-canary`, or diagnose why a V8 version update no longer builds.
+metadata:
+  internal: true
 ---
 
 # Update V8 Version

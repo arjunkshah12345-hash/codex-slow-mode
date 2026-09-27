@@ -1,6 +1,8 @@
 ---
 name: path-types
 description: Choose Rust types for operating system paths across the Codex repository. Use when defining new path-bearing types or explicitly migrating existing ones.
+metadata:
+  internal: true
 ---
 
 # Path Types
