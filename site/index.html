@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Slow Mode — same Codex, paced</title>
-  <meta name="description" content="Type /slow-mode in Codex. Same model, same tools. Model requests take their turn across the window you already have." />
+  <meta name="description" content="A Codex skill. Run $slow-mode at the start of a session. Same model, same tools. This session only." />
   <meta property="og:title" content="Slow Mode" />
   <meta property="og:description" content="Same Codex. Paced for the session." />
   <meta property="og:image" content="https://codex-slow-mode.vercel.app/brand/og.png" />
@@ -21,8 +21,8 @@
     <nav>
       <a class="brand" href="#top"><img src="brand/mark.svg" alt="" /> Slow Mode</a>
       <div class="nav-links">
+        <a href="#install">Install</a>
         <a href="#cases">How it works</a>
-        <a href="#command">Command</a>
         <a href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">Notes</a>
         <a class="btn solid sm" href="https://github.com/arjunkshah12345-hash/codex-slow-mode">GitHub</a>
       </div>
@@ -31,9 +31,12 @@
     <header class="hero" id="top">
       <h1>Same Codex. Paced.</h1>
       <p class="lede">A session pace for model requests, follow-ups, and reviews. The model, the tools, and the checks stay. Only the timing changes.</p>
-      <div class="actions">
-        <a class="btn solid" href="#command">Start a session</a>
-        <a class="btn ghost" href="https://github.com/arjunkshah12345-hash/codex-slow-mode/blob/feat/slow-mode/docs/slow-mode.md">Read the notes</a>
+      <div class="install" id="install">
+        <div class="install-bar">
+          <span>Installs the skill. Codex stays the same.</span>
+          <button type="button" class="copy" data-copy="install-cmd">Copy</button>
+        </div>
+        <pre class="command" id="install-cmd">npx skills add arjunkshah12345-hash/codex-slow-mode --skill slow-mode -a codex -g -y</pre>
       </div>
 
       <div class="stage-wrap">
@@ -50,7 +53,7 @@
             </div>
             <div class="code">
               <div><span class="n">1</span> codex</div>
-              <div><span class="n">2</span> &gt; /slow-mode</div>
+              <div><span class="n">2</span> &gt; $slow-mode</div>
               <div class="ok"><span class="n">3</span> Slow mode enabled for this session.</div>
               <div><span class="n">4</span> &gt; Build the feature…</div>
               <div><span class="n">5</span> same model · requests take their turn</div>
@@ -59,7 +62,7 @@
             </div>
           </div>
           <div class="stage-foot">
-            <span>/slow-mode</span>
+            <span>$slow-mode</span>
             <span>this session only</span>
           </div>
         </div>
@@ -124,15 +127,14 @@
       </article>
     </section>
 
-    <section id="command">
-      <p class="kicker">The command</p>
-      <h2>Open Codex. Type the slash.</h2>
-      <pre class="command">codex
+    <section id="after">
+      <p class="kicker">After it installs</p>
+      <h2>Open a session. Run the skill.</h2>
+      <pre class="command">$slow-mode
+<span class="dim">Slow mode is on for this session.</span>
 
-&gt; /slow-mode
-<span class="dim">Slow mode enabled for this session.</span>
-
-&gt; Build the feature…</pre>
+$slow-mode off
+<span class="dim">Slow mode is off for this session.</span></pre>
     </section>
 
     <section class="close">
@@ -145,5 +147,20 @@
       <a href="https://github.com/arjunkshah12345-hash/codex-slow-mode">Apache-2.0</a>
     </footer>
   </div>
+  <script>
+    document.querySelectorAll("[data-copy]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const el = document.getElementById(btn.getAttribute("data-copy"));
+        const text = el.textContent.replace(/\n$/, "");
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = "Copied";
+        } catch (err) {
+          btn.textContent = "Select it";
+        }
+        setTimeout(() => { btn.textContent = "Copy"; }, 1600);
+      });
+    });
+  </script>
 </body>
 </html>

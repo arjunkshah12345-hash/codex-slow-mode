@@ -74,7 +74,38 @@ h1 {
   color: var(--muted);
   font-size: 18px;
 }
-.actions { display: flex; justify-content: center; gap: 10px; margin-top: 26px; flex-wrap: wrap; }
+.install {
+  width: min(760px, 100%);
+  margin: 28px auto 0;
+  text-align: left;
+}
+.install-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.install-bar code { font-family: var(--mono); font-size: 12px; }
+.copy {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--ink);
+  background: white;
+  border: 1px solid #d9d8d1;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.copy:hover { background: #fff; border-color: #bdbbb2; }
+.install .command {
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 
 .stage-wrap {
   margin: 42px auto 8px;
@@ -232,6 +263,7 @@ footer a:hover { color: var(--ink); }
   .stats div + div, .code { border-left: 0; }
   .stats div + div, .code { border-top: 1px solid var(--line); }
   .nav-links a:not(.btn) { display: none; }
+  .install-bar { flex-wrap: wrap; }
   .hero { padding-top: 48px; }
   h1 { font-size: 44px; }
   .art { min-height: 220px; }

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Slow Mode"
+  short_description: "Pace this session"
+  default_prompt: "Pace this session. One model request at a time. Same model, tools, and checks."
+
+policy:
+  allow_implicit_invocation: false
